@@ -12,6 +12,7 @@ export type httpRecord = {
   status: number;
   statusText: string;
   response?: any;
+  timestamp: number;
 }
 
 export type behaviorStack = routeRecord | httpRecord
