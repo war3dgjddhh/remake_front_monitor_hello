@@ -35,12 +35,11 @@ export class Client {
     });
   }
   buildData(_data: object): object {
-
     this.plugins?.forEach((el) => {
-      if (typeof el.beforeBuildData != 'undefined') { 
-        _data = el.beforeBuildData(_data)
+      if (typeof el.beforeBuildData != 'undefined') {
+        _data = el.beforeBuildData(_data);
       }
-    })
+    });
     return _data;
   }
   send(url: string, _data: object) {
@@ -49,6 +48,9 @@ export class Client {
     this.plugins?.forEach((el) => {
       el.beforeSend?.(url, data);
     });
+    if (typeof data !== 'undefined') {
+      this.sender.send?.(url, data)
+    }
   }
   destory() {
     this.plugins?.forEach((el) => {
@@ -60,5 +62,5 @@ export class Client {
  * 如何实现生命周期
  * init
  * start
- *
+ * 约定不发送undifined
  */
