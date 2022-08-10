@@ -39,6 +39,7 @@ export const proxyXmlHttp = (
           response,
           responseTime: Date.now(),
         } as httpRecord;
+        metrics_method.delete(url);
         if (typeof loadHandler === 'function') loadHandler(metrics);
         // xhr.status 状态码
       });
