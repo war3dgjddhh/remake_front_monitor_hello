@@ -1,6 +1,7 @@
 import { opt } from '..';
 import { Client, Plugin } from '../client';
-import type { httpRecord } from './behaviorStore';
+import type { httpRecord } from '../behaviorStore';
+// 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 // 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 export const proxyXmlHttp = (
   sendHandler: Function | null | undefined,
@@ -16,29 +17,28 @@ export const proxyXmlHttp = (
       (window as any).oXMLHttpRequest = oXMLHttpRequest;
     }
     const { open, send } = window.XMLHttpRequest.prototype;
-    let metrics = {} as httpRecord;
-    window.XMLHttpRequest.prototype.open = function pyopen(
-      method,
-      url,
-      ...rest: any[]
-    ) {
-      // js 中func定义的函数的this是调用方的, ()=> 是内部的定义的时候会绑定
-      metrics.url = url;
-      metrics.method = method;
-      return open.call(this, method, url, rest[0], rest[1], rest[2]);
+    let metrics_method = new Map();
+    window.XMLHttpRequest.prototype.open = function pyopen(...rest: any[]) {
+      // 可以放一些请求头,  我也不知道这个能干啥
+      metrics_method.set(rest[1], rest[0]);
+      return open.call(this, rest[0], rest[1], rest[2], rest[3], rest[4]);
     };
     window.XMLHttpRequest.prototype.send = function pysend(body) {
-      metrics.body = body || '';
-      metrics.requestTime = new Date().getTime();
       this.addEventListener('loadend', () => {
-        const { status, statusText, response } = this;
-        metrics = {
-          ...metrics,
+        const { responseURL, status, statusText, response } = this;
+        console.log(metrics_method);
+        const regx = /ht\w+:\/\/.+?\//;
+        const url = (responseURL as string).replace(regx, '/');
+        let metrics = {
+          method:
+            metrics_method.get(url) || '',
+          body: body || '',
+          url,
           status,
           statusText,
           response,
-          responseTime: new Date().getTime(),
-        };
+          responseTime: Date.now(),
+        } as httpRecord;
         if (typeof loadHandler === 'function') loadHandler(metrics);
         // xhr.status 状态码
       });
