@@ -3,10 +3,11 @@ export type Plugin = {
   beforeInit?: Function;
   beforeStart?: Function;
   beforeMonitorning?: Function;
-  beforeBuildData?: Function;
-  beforeSend?: (url:string, data: object)=>void;
+  beforeBuildData?: (data: object) => object;
+  beforeSend?: (url: string, data: object) => void;
   beforeDestory?: Function;
 };
+export type category = 'error' | 'xxx';
 export class Client {
   opt = { url: '' };
   plugins?: Plugin[] = [];
@@ -33,13 +34,18 @@ export class Client {
       el.beforeMonitorning?.();
     });
   }
-  buildData() {
+  buildData(_data: object): object {
+
     this.plugins?.forEach((el) => {
-      el.beforeBuildData?.();
-    });
+      if (typeof el.beforeBuildData != 'undefined') { 
+        _data = el.beforeBuildData(_data)
+      }
+    })
+    return _data;
   }
-  send(url: string, data: object) {
-    console.log("DEBUG",data)
+  send(url: string, _data: object) {
+    console.log('DEBUG', _data);
+    const data = this.buildData(_data);
     this.plugins?.forEach((el) => {
       el.beforeSend?.(url, data);
     });

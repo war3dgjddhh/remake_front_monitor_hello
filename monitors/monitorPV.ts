@@ -91,7 +91,7 @@ export const monitorPV = (client: Client): Plugin => {
       edgeResolve();
     },
     beforeSend: (url, data) => {
-      console.log(data);
+      // console.log(data);
     },
   };
 };
