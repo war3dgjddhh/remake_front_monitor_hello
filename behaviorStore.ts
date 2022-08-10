@@ -1,4 +1,4 @@
-import { routeRecord } from "./monitorRouteChange";
+import { routeRecord } from "./monitors/monitorPV";
 
 export interface behaviorRecordsOptions {
   maxBehaviorRecords: number;

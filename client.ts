@@ -1,4 +1,4 @@
-import behaviorStore from './monitors/behaviorStore';
+import behaviorStore from './behaviorStore';
 export type Plugin = {
   beforeInit?: Function;
   beforeStart?: Function;
@@ -39,6 +39,7 @@ export class Client {
     });
   }
   send(url: string, data: object) {
+    console.log("DEBUG",data)
     this.plugins?.forEach((el) => {
       el.beforeSend?.(url, data);
     });
