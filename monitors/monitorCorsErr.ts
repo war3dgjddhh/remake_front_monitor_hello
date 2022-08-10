@@ -1,3 +1,4 @@
+import { getErrorUid } from './../utils/errUtils';
 import { Client } from './../client';
 import type { Plugin } from './../client';
 import { getErrorKey } from '../utils/errUtils';
@@ -11,6 +12,7 @@ export const monitorCorsErr = (client: Client): Plugin => {
     const mechanism = getErrorKey(event);
     if (mechanism !== 'corsErr') return;
     const exception: errRecord = {
+      errUid: getErrorUid(`${mechanism}-${event.message}`),
       category: 'error',
       // 上报错误归类
       mechanism,

@@ -1,7 +1,7 @@
 import { httpRecord } from '../behaviorStore';
 import { Client } from './../client';
 import type { Plugin } from './../client';
-import { getErrorKey } from '../utils/errUtils';
+import { getErrorKey, getErrorUid } from '../utils/errUtils';
 import { errRecord } from './monitorJsErr';
 import { proxyFetch, proxyXmlHttp } from './monitorAPI';
 export const monitorHttpErr = (client: Client): Plugin => {
@@ -11,13 +11,17 @@ export const monitorHttpErr = (client: Client): Plugin => {
     // 如果 status 状态码小于 400,说明没有 HTTP 请求错误
     if (metrics.status < 400) return;
     const value = metrics.response;
+    const mechanism = 'httpErr';
     const exception: errRecord = {
       category: 'error',
       // 上报错误归类
-      mechanism: 'httpErr',
+      mechanism,
       // 错误信息
       errMsg: value,
       errType: 'HttpError',
+      errUid: getErrorUid(
+        `${mechanism}-${value}-${metrics.statusText}`
+      ),
     };
     // 一般错误异常立刻上报，不用缓存在本地
     client.send(url, exception);

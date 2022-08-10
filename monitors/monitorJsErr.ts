@@ -1,13 +1,14 @@
 import { PageInfo } from './../utils/getPageInfo';
 import { Client, category } from './../client';
 import type { Plugin } from './../client';
-import { getErrorKey } from '../utils/errUtils';
+import { getErrorKey, getErrorUid } from '../utils/errUtils';
 import { behaviorStack } from '../behaviorStore';
 export type errRecord = {
   category: category;
   mechanism: string;
   errMsg?: string;
   errType: string;
+  errUid: string;
   stackTrace?: object;
   pageInfo?: PageInfo;
   breadcrumbs?: Array<behaviorStack>;
@@ -24,6 +25,9 @@ export const monitorJsErr = (client: Client): Plugin => {
       mechanism,
       errMsg: event.message,
       errType: (event.error && event.error.name) || 'UnKnowun',
+      errUid: getErrorUid(
+        `${mechanism}-${event.message}-${event.filename}`
+      ),
     };
     client.send(url, exception);
   };
