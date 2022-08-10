@@ -26,7 +26,6 @@ export const proxyXmlHttp = (
     window.XMLHttpRequest.prototype.send = function pysend(body) {
       this.addEventListener('loadend', () => {
         const { responseURL, status, statusText, response } = this;
-        console.log(metrics_method);
         const regx = /ht\w+:\/\/.+?\//;
         const url = (responseURL as string).replace(regx, '/');
         let metrics = {
@@ -98,10 +97,10 @@ export const monitorAPI = (client: Client, option: opt): Plugin => {
       delete metrics.body;
     }
     metrics.timestamp = Date.now();
-    // 正常得用户请求也得上报
-    client.send(url, metrics);
     //记录到用户行为记录栈
     client.breadcrumbs.push(metrics);
+    // 正常得用户请求也得上报
+    client.send(url, metrics);
   };
 
   return {
