@@ -96,6 +96,7 @@ export const monitorAPI = (client: Client, option: opt): Plugin => {
       delete metrics.response;
       delete metrics.body;
     }
+    metrics.timestamp = Date.now();
     // 正常得用户请求也得上报
     client.send(url, metrics);
     //记录到用户行为记录栈
