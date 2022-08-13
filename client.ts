@@ -3,7 +3,7 @@ export type Plugin = {
   beforeInit?: Function;
   beforeStart?: Function;
   beforeMonitorning?: Function;
-  beforeBuildData?: (data: object) => object;
+  beforeBuildData?: (data: {plugin: string}) => object;
   beforeSend?: (url: string, data: object) => void;
   beforeDestory?: Function;
 };
@@ -37,7 +37,8 @@ export class Client {
   buildData(_data: object): object {
     this.plugins?.forEach((el) => {
       if (typeof el.beforeBuildData != 'undefined') {
-        _data = el.beforeBuildData(_data);
+        console.log(el)
+        _data = el.beforeBuildData(_data as any);
       }
     });
     return _data;

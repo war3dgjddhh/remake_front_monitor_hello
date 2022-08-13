@@ -100,7 +100,10 @@ export const monitorAPI = (client: Client, option: opt): Plugin => {
     //记录到用户行为记录栈
     client.breadcrumbs.push(metrics);
     // 正常得用户请求也得上报
-    client.send(url, metrics);
+    client.send(url, {
+      ...metrics,
+      plugin: "monitorAPI",
+    });
   };
 
   return {
