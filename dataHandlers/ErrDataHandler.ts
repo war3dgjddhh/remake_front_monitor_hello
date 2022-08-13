@@ -14,7 +14,7 @@ export const ErrDataHandler = (client: Client): Plugin => {
   };
   return {
     beforeBuildData: (_data) => {
-      let data = _data as errRecord;
+      let data = _data as any;
       if (data.category === 'error') {
         if (!errUids.includes(data.errUid)) {
           data = errDataBuild(data);
