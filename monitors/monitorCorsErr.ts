@@ -18,8 +18,6 @@ export const monitorCorsErr = (client: Client): Plugin => {
       mechanism,
       // 错误信息
       errMsg: event.message,
-      // 错误类型
-      errType: 'CorsError',
       // 错误的标识码
     };
     // 自行上报异常，也可以跨域脚本的异常都不上报;
