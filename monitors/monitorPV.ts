@@ -67,11 +67,6 @@ export const monitorPV = (client: Client, opt: opt): Plugin => {
 
   const routeChangeHandler = (e: Event) => {
     const { pathname = '' } = window.location;
-    const routeRecord: routeRecord = {
-      jumpType: e.type,
-      timestamp: Date.now(),
-      routePath: pathname,
-    };
     const cur = {
       startTime: Date.now(),
       duration: 0,
@@ -84,7 +79,6 @@ export const monitorPV = (client: Client, opt: opt): Plugin => {
       pv[pv.length - 2].endTime = cur.startTime;
       pv[pv.length - 2].duration = cur.startTime - pv[pv.length - 2].startTime;
     }
-    client.breadcrumbs.push(routeRecord);
     send(url, pv.shift()!);
   };
   function send(url: string, data: object) {
