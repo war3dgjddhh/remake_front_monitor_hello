@@ -35,7 +35,7 @@ const webVitalData: webVitalData = {
   FID: -1,
   LCP: -1,
 };
-export const webVitalMontior = (client: Client, opt: Ioption): Plugin => {
+export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
   const monitorCLS = () => {
     let sessionValue = 0;
     let sessionEntries: PerformanceEntry[] = [];
