@@ -3,12 +3,12 @@ import { errRecord } from '../monitors/monitorJsErr';
 import { Client, Plugin } from '../client';
 
 type rv = {
-  err_url: string | URL;
-  err_body: any;
-  err_status: number;
-  err_response: any;
-  err_method: string;
-  err_time: Date;
+  errUrl: string | URL;
+  errBody: any;
+  errStatus: number;
+  errResponse: any;
+  errMethod: string;
+  errTime: Date;
 };
 
 export const HttpErrDataHandler = (client: Client): Plugin => {
@@ -21,12 +21,12 @@ export const HttpErrDataHandler = (client: Client): Plugin => {
       const { method, url, status, body, timestamp, response } =
         data.origin as httpRecord;
       const rv: rv = {
-        err_url: url,
-        err_body: body,
-        err_method: method,
-        err_response: response,
-        err_status: status,
-        err_time: new Date(timestamp),
+        errUrl: url,
+        errBody: body,
+        errMethod: method,
+        errResponse: response,
+        errStatus: status,
+        errTime: new Date(timestamp),
       };
       return rv;
     },

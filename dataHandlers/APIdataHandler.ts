@@ -3,10 +3,10 @@ import { errRecord } from '../monitors/monitorJsErr';
 import { Client, Plugin } from '../client';
 
 type rv = {
-  api_method: string;
-  api_url: URL | string;
-  api_time: Date;
-  api_status: number;
+  apiMethod: string;
+  apiUrl: URL | string;
+  apiTime: Date;
+  apiStatus: number;
 };
 
 export const APIdataHandler = (client: Client): Plugin => {
@@ -26,10 +26,10 @@ export const APIdataHandler = (client: Client): Plugin => {
       if (_data?.plugin === 'monitorAPI') {
         const { method, url, status, timestamp } = data;
         const rv: rv = {
-          api_url: url,
-          api_method: method,
-          api_time: new Date(timestamp),
-          api_status: status,
+          apiUrl: url,
+          apiMethod: method,
+          apiTime: new Date(timestamp),
+          apiStatus: status,
         };
         return rv;
       }
