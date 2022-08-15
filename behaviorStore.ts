@@ -1,5 +1,3 @@
-import { routeRecord } from "./monitors/monitorPV";
-
 export interface behaviorRecordsOptions {
   maxBehaviorRecords: number;
 }
@@ -15,7 +13,7 @@ export type httpRecord = {
   timestamp: number;
 }
 
-export type behaviorStack = routeRecord | httpRecord
+export type behaviorStack = httpRecord
 
 // 暂存用户的行为记录追踪
 export default class behaviorStore {

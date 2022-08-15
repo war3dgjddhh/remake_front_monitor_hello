@@ -1,10 +1,5 @@
 import { opt } from '..';
 import { Client, Plugin } from '../client';
-export type routeRecord = {
-  jumpType: string;
-  timestamp: number;
-  routePath: string;
-};
 export type PV = {
   routePath: string;
   duration: number;
