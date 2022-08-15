@@ -20,6 +20,7 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
     prefFcp: number;
     prefFid: number;
     prefLcp: number;
+    reportTime: Date;
   };
   return {
     beforeBuildData: (_data) => {
@@ -61,6 +62,7 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
           prefFcp: Math.floor(FCP * 100) / 100,
           prefFid: Math.floor(FID * 100) / 100,
           prefLcp: Math.floor(LCP * 100) / 100,
+          reportTime: new Date(),
         };
         return rv;
       }
