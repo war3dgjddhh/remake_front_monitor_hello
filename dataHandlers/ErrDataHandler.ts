@@ -18,6 +18,8 @@ export const ErrDataHandler = (client: Client): Plugin => {
       if (data.category === 'error') {
         if (!errUids.includes(data.errUid)) {
           data = errDataBuild(data);
+        } else {
+          data = undefined;
         }
       }
       return data;
