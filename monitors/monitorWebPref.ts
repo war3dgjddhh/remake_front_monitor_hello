@@ -29,7 +29,7 @@ interface LayoutShift extends PerformanceEntry {
   value: number;
   hadRecentInput: boolean;
 }
-let webVitalData: webVitalData
+let webVitalData: webVitalData;
 export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
   const monitorCLS = () => {
     let sessionValue = 0;
@@ -95,7 +95,7 @@ export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
     webVitalData.Trans = entry.responseEnd - entry.responseStart;
     webVitalData.DomParse = entry.domInteractive - entry.responseEnd;
     webVitalData.Res = entry.loadEventStart - entry.domContentLoadedEventEnd;
-  })
+  });
   return {
     beforeInit: () => {
       monitorCLS();
@@ -106,7 +106,10 @@ export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
     },
     beforeStart: () => {
       setTimeout(() => {
-        client.send('url', webVitalData);
+        client.send('url', {
+          ...webVitalData,
+          plugin: 'monitorWebPref',
+        });
       }, 10000);
     },
     beforeDestory: () => {

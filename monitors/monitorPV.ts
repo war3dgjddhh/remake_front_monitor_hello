@@ -1,3 +1,4 @@
+import { opt } from '..';
 import { Client, Plugin } from '../client';
 export type routeRecord = {
   jumpType: string;
@@ -11,7 +12,8 @@ export type PV = {
   endTime?: number;
 };
 const history = window.history;
-export const monitorPV = (client: Client): Plugin => {
+export const monitorPV = (client: Client, opt: opt): Plugin => {
+  const { url = client.opt.url } = opt;
   const wr = (type: keyof History) => {
     const orig: Function = history[type];
     return function (this: unknown) {
@@ -46,7 +48,7 @@ export const monitorPV = (client: Client): Plugin => {
   const pv: Array<PV> = [];
 
   // 处理用户进来的时候的路由状态改变, 和关闭浏览器时,最后一个页面的停留时间
-  const edgeResolve = ()=>{
+  const edgeResolve = () => {
     window.addEventListener('load', () => {
       pv.push({
         routePath: window.location.pathname,
@@ -59,8 +61,9 @@ export const monitorPV = (client: Client): Plugin => {
     window.addEventListener('beforeunload', () => {
       pv[0].endTime = Date.now();
       pv[0].duration = pv[0].endTime - pv[0].startTime;
+      send(url, pv.shift()!);
     });
-  }
+  };
 
   const routeChangeHandler = (e: Event) => {
     const { pathname = '' } = window.location;
@@ -82,7 +85,11 @@ export const monitorPV = (client: Client): Plugin => {
       pv[pv.length - 2].duration = cur.startTime - pv[pv.length - 2].startTime;
     }
     client.breadcrumbs.push(routeRecord);
+    send(url, pv.shift()!);
   };
+  function send(url: string, data: object) {
+    client.send(url, { ...data, plugin: 'monitorPV' });
+  }
   return {
     beforeInit: () => {
       wrHistory();

@@ -16,6 +16,7 @@ export type ResourceFlowTiming = {
   contentDownload: number;
 }
 
+
 export const resourceMonitor = (client: Client, opt: opt): Plugin => {
   const resourceStream: Array<ResourceFlowTiming> = []
   const monitorRF = () => {
@@ -62,7 +63,10 @@ export const resourceMonitor = (client: Client, opt: opt): Plugin => {
     },
     beforeStart: () => {
       setTimeout(() => {
-        client.send('url', resourceStream);
+        client.send('url', {
+          ...resourceStream,
+          plugin: 'resourceMonitor',
+        });
       }, 10000);
     },
     beforeDestory: () => {
