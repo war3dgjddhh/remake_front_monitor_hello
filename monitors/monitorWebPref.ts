@@ -6,18 +6,18 @@ type Ioption = {
   monitorningCLS: boolean;
 };
 export type MeNavigationTiming = {
-  FP?: number;
-  TTI?: number;
-  DomReady?: number;
-  Load?: number;
-  FirstByte?: number;
-  DNS?: number;
-  TCP?: number;
-  SSL?: number;
-  TTFB?: number;
-  Trans?: number;
-  DomParse?: number;
-  Res?: number;
+  FP: number;
+  TTI: number;
+  DomReady: number;
+  Load: number;
+  FirstByte: number;
+  DNS: number;
+  TCP: number;
+  SSL: number;
+  TTFB: number;
+  Trans: number;
+  DomParse: number;
+  Res: number;
 };
 export type webVitalData = {
   CLS: number;
@@ -29,12 +29,7 @@ interface LayoutShift extends PerformanceEntry {
   value: number;
   hadRecentInput: boolean;
 }
-const webVitalData: webVitalData = {
-  CLS: -1,
-  FCP: -1,
-  FID: -1,
-  LCP: -1,
-};
+let webVitalData: webVitalData
 export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
   const monitorCLS = () => {
     let sessionValue = 0;
