@@ -29,8 +29,7 @@ export const proxyXmlHttp = (
         const regx = /ht\w+:\/\/.+?\//;
         const url = (responseURL as string).replace(regx, '/');
         let metrics = {
-          method:
-            metrics_method.get(url) || '',
+          method: metrics_method.get(url) || '',
           body: body || '',
           url,
           status,
@@ -91,18 +90,15 @@ export const monitorAPI = (client: Client, option: opt): Plugin => {
   const { url = client.opt.url } = option;
   // sendhander ；用于在请求前加上信息
   const loadHandler = (metrics: httpRecord) => {
-    if (metrics.status < 400) {
-      // 对于正常请求的 HTTP 请求来说,不需要记录 请求体 和 响应体
-      delete metrics.response;
-      delete metrics.body;
-    }
+    delete metrics.response;
+    delete metrics.body;
     metrics.timestamp = Date.now();
     //记录到用户行为记录栈
     client.breadcrumbs.push(metrics);
     // 正常得用户请求也得上报
     client.send(url, {
       ...metrics,
-      plugin: "monitorAPI",
+      plugin: 'monitorAPI',
     });
   };
 
