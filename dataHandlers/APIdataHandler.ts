@@ -5,7 +5,6 @@ import { Client, Plugin } from '../client';
 type rv = {
   api_method: string;
   api_url: URL | string;
-  api_body: any;
   api_time: Date;
   api_status: number;
 };
@@ -25,9 +24,8 @@ export const APIdataHandler = (client: Client): Plugin => {
     beforeBuildData: (_data) => {
       let data = _data as any as httpRecord;
       if (_data?.plugin === 'monitorAPI') {
-        const { method, url, status, body, timestamp } = data;
+        const { method, url, status, timestamp } = data;
         const rv: rv = {
-          api_body: body,
           api_url: url,
           api_method: method,
           api_time: new Date(timestamp),

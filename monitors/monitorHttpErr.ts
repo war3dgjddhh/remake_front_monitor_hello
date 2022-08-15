@@ -18,10 +18,10 @@ export const monitorHttpErr = (client: Client): Plugin => {
       mechanism,
       // 错误信息
       errMsg: value,
-      errType: 'HttpError',
       errUid: getErrorUid(
         `${mechanism}-${value}-${metrics.statusText}`
       ),
+      origin: metrics,
     };
     // 一般错误异常立刻上报，不用缓存在本地
     client.send(url, exception);
