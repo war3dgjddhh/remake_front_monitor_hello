@@ -37,7 +37,7 @@ export class Client {
   buildData(_data: object): object {
     this.plugins?.forEach((el) => {
       if (typeof el.beforeBuildData != 'undefined') {
-        console.log(el)
+        // console.log(el)
         _data = el.beforeBuildData(_data as any);
       }
     });
