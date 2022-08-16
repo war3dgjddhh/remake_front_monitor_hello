@@ -9,17 +9,17 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
   };
   return {
     beforeBuildData: (_data) => {
-      let data = _data as any as PV;
       if (_data?.plugin === 'monitorPV') {
-        const { duration, startTime, routePath } = data;
-        const rv: rv = {
-          routePath,
-          duration,
-          pvTime: new Date(startTime),
-        }
-        return rv;
+        return _data;
       }
-      return data;
+      let data = _data as any as PV;
+      const { duration, startTime, routePath } = data;
+      const rv: rv = {
+        routePath,
+        duration,
+        pvTime: new Date(startTime),
+      };
+      return rv;
     },
   };
 };

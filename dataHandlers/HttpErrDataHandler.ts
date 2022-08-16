@@ -14,10 +14,10 @@ type rv = {
 export const HttpErrDataHandler = (client: Client): Plugin => {
   return {
     beforeBuildData: (_data) => {
-      let data = _data as any as errRecord;
       if (_data?.plugin !== 'monitorHttpErr') {
-        return data;
+        return _data;
       }
+      let data = _data as any as errRecord;
       const { method, url, status, body, timestamp, response } =
         data.origin as httpRecord;
       const rv: rv = {
