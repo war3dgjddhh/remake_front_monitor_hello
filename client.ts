@@ -43,7 +43,7 @@ export class Client {
     });
     return _data;
   }
-  send(url: string, _data: object) {
+  send(url: string, _data: {plugin: string}) {
     console.log('DEBUG', _data);
     const data = this.buildData(_data);
     this.plugins?.forEach((el) => {

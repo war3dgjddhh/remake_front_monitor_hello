@@ -1,4 +1,4 @@
-import { httpRecord } from './../behaviorStore';
+import { httpRecord } from '../behaviorStore';
 import { Client, Plugin } from '../client';
 
 type rv = {
@@ -11,7 +11,7 @@ type rv = {
 export const APIdataHandler = (client: Client): Plugin => {
   return {
     beforeBuildData: (_data) => {
-      if (_data?.plugin === 'monitorAPI') {
+      if (_data?.plugin !== 'monitorAPI') {
         return _data;
       }
       let data = _data as any as httpRecord;

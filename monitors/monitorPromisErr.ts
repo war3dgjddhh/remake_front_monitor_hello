@@ -8,10 +8,7 @@ export const monitorPromisErr = (client: Client): Plugin => {
     event.preventDefault(); // 阻止向上抛出控制台报错
     const value = event.reason.message || event.reason;
     const type = event.reason.name || 'UnKnowun';
-    const mechanism =
-      event instanceof PromiseRejectionEvent
-        ? 'promisReject'
-        : 'unhandledrejection';
+    const mechanism = 'unhandledrejection';
     const exception: errRecord = {
       category: 'error',
       mechanism,

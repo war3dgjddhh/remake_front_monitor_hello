@@ -9,7 +9,7 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
   };
   return {
     beforeBuildData: (_data) => {
-      if (_data?.plugin === 'monitorPV') {
+      if (_data?.plugin !== 'monitorPV') {
         return _data;
       }
       let data = _data as any as PV;

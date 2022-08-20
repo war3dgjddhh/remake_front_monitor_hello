@@ -12,7 +12,7 @@ export type errRecord = {
   stackTrace?: object;
   pageInfo?: PageInfo;
   breadcrumbs?: Array<behaviorStack>;
-  origin?: object,
+  origin?: object;
 };
 export const monitorJsErr = (client: Client): Plugin => {
   const { url = client.opt.url } = {}; // 从配置Map中读取client.opt.geturl("pluginName")
@@ -28,7 +28,10 @@ export const monitorJsErr = (client: Client): Plugin => {
       errType: (event.error && event.error.name) || 'UnKnowun',
       errUid: getErrorUid(`${mechanism}-${event.message}-${event.filename}`),
     };
-    client.send(url, exception);
+    client.send(url, {
+      ...exception,
+      plugin: 'monitorJsErr',
+    });
   };
   return {
     beforeInit: () => {

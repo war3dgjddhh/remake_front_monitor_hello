@@ -21,13 +21,15 @@ export const monitorCorsErr = (client: Client): Plugin => {
       // 错误的标识码
     };
     // 自行上报异常，也可以跨域脚本的异常都不上报;
-    client.send(url, exception);
+    client.send(url, {
+      ...exception,
+      plugin: 'monitorCorsErr',
+    });
   };
-  window.addEventListener('error', (event) => handler(event), true);
 
   return {
-    beforeSend:()=>{
-      
-    }
+    beforeInit: () => {
+      window.addEventListener('error', (event) => handler(event), true);
+    },
   };
 };

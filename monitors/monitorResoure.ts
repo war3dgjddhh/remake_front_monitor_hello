@@ -4,6 +4,7 @@ import { observe, PerformanceEntryHandler } from "../utils/observe";
 
 export type ResourceFlowTiming = {
   name: string;
+  duration: number;
   transferSize: number;
   initiatorType: string;
   startTime: number;
@@ -34,10 +35,12 @@ export const resourceMonitor = (client: Client, opt: opt): Plugin => {
         secureConnectionStart,
         responseStart,
         requestStart,
+        duration,
       } = entry;
       resourceStream.push({
         // name 资源地址
         name,
+        duration,
         // transferSize 传输大小
         transferSize,
         // initiatorType 资源类型

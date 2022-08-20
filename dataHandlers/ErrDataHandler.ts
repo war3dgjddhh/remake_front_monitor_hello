@@ -15,12 +15,13 @@ export const ErrDataHandler = (client: Client): Plugin => {
   return {
     beforeBuildData: (_data) => {
       let data = _data as any;
-      if (data.category === 'error') {
-        if (!errUids.includes(data.errUid)) {
-          data = errDataBuild(data);
-        } else {
-          data = undefined;
-        }
+      if (data.category !== 'error') {
+        return data;
+      }
+      if (!errUids.includes(data.errUid)) {
+        data = errDataBuild(data);
+      } else {
+        data = undefined;
       }
       return data;
     },

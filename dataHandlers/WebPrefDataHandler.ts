@@ -24,7 +24,7 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
   };
   return {
     beforeBuildData: (_data) => {
-      if (_data?.plugin === 'monitorWebPref') {
+      if (_data?.plugin !== 'monitorWebPref') {
         return _data;
       }
       let data = _data as any as webVitalData;
