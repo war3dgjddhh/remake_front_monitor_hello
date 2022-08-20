@@ -1,6 +1,6 @@
-import { opt } from "..";
-import { Client, Plugin } from "../client";
-import { observe, PerformanceEntryHandler } from "../utils/observe";
+import { opt } from '..';
+import { Client, Plugin } from '../client';
+import { observe, PerformanceEntryHandler } from '../utils/observe';
 
 export type ResourceFlowTiming = {
   name: string;
@@ -15,11 +15,12 @@ export type ResourceFlowTiming = {
   request: number;
   ttfb: number;
   contentDownload: number;
-}
+  relativeStartTime: number;
+};
 
-
-export const resourceMonitor = (client: Client, opt: opt): Plugin => {
-  const resourceStream: Array<ResourceFlowTiming> = []
+export const monitorRes = (client: Client, opt: opt): Plugin => {
+  const { url = client.opt.url } = opt;
+  const resourceStream: Array<ResourceFlowTiming> = [];
   const monitorRF = () => {
     const entryHandler = (entry: PerformanceResourceTiming) => {
       const {
@@ -45,8 +46,9 @@ export const resourceMonitor = (client: Client, opt: opt): Plugin => {
         transferSize,
         // initiatorType 资源类型
         initiatorType,
-        // startTime 开始时间
-        startTime,
+        // startTime 开始时间  这个是performan.now()的时间开始算, 不是时间戳
+        startTime: Date.now(),
+        relativeStartTime: startTime,
         // responseEnd 结束时间
         responseEnd,
         // 贴近 Chrome 的近似分析方案，受到跨域资源影响
@@ -57,23 +59,19 @@ export const resourceMonitor = (client: Client, opt: opt): Plugin => {
         ttfb: responseStart - requestStart,
         contentDownload: responseStart - requestStart,
       });
-    };  
+    };
     observe('resource', entryHandler as PerformanceEntryHandler);
-  }
+  };
+  // TODO 等数据上报之后销毁observer
   return {
     beforeInit: () => {
       monitorRF();
-    },
-    beforeStart: () => {
       setTimeout(() => {
-        client.send('url', {
-          ...resourceStream,
-          plugin: 'resourceMonitor',
-        });
-      }, 10000);
-    },
-    beforeDestory: () => {
-      // 释放obsever
+        client.send(url, {
+          data: resourceStream,
+          plugin: 'monitorRes',
+        } as any);
+      }, 6000);
     },
   };
 };

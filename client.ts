@@ -3,7 +3,7 @@ export type Plugin = {
   beforeInit?: Function;
   beforeStart?: Function;
   beforeMonitorning?: Function;
-  beforeBuildData?: (data: {plugin: string}) => object;
+  beforeBuildData?: (data: { plugin: string }) => object;
   beforeSend?: (url: string, data: object) => void;
   beforeDestory?: Function;
 };
@@ -43,14 +43,14 @@ export class Client {
     });
     return _data;
   }
-  send(url: string, _data: {plugin: string}) {
-    console.log('DEBUG', _data);
+  send(url: string, _data: { plugin: string }) {
     const data = this.buildData(_data);
     this.plugins?.forEach((el) => {
       el.beforeSend?.(url, data);
     });
     if (typeof data !== 'undefined') {
-      this.sender.send?.(url, data)
+      console.log('DEBUG', data);
+      this.sender.send?.(url, data);
     }
   }
   destory() {

@@ -1,3 +1,4 @@
+import { opt } from '..';
 import { PageInfo } from './../utils/getPageInfo';
 import { Client, category } from './../client';
 import type { Plugin } from './../client';
@@ -14,8 +15,8 @@ export type errRecord = {
   breadcrumbs?: Array<behaviorStack>;
   origin?: object;
 };
-export const monitorJsErr = (client: Client): Plugin => {
-  const { url = client.opt.url } = {}; // 从配置Map中读取client.opt.geturl("pluginName")
+export const monitorJsErr = (client: Client, opt: opt): Plugin => {
+  const { url = client.opt.url } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
   const JsErrHandler = (event: ErrorEvent) => {
     // 阻止向上抛出控制台报错
     event.preventDefault();

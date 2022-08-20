@@ -10,7 +10,7 @@ type rv = {
 export const jsErrDataHandler = (client: Client): Plugin => {
   return {
     beforeBuildData: (_data) => {
-      if (_data?.plugin !== 'monitorCorsErr') {
+      if (_data?.plugin !== 'monitorJsErr') {
         return _data;
       }
       let data = _data as any as errRecord;

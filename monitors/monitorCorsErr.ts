@@ -1,10 +1,11 @@
+import { opt } from '..';
 import { getErrorUid } from './../utils/errUtils';
 import { Client } from './../client';
 import type { Plugin } from './../client';
 import { getErrorKey } from '../utils/errUtils';
 import { errRecord } from './monitorJsErr';
-export const monitorCorsErr = (client: Client): Plugin => {
-  const { url = client.opt.url } = {}; // 从配置Map中读取client.opt.geturl("pluginName")
+export const monitorCorsErr = (client: Client, opt: opt): Plugin => {
+  const { url = client.opt.url } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
   const handler = (event: ErrorEvent) => {
     // 阻止向上抛出控制台报错
     event.preventDefault();

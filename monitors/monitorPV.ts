@@ -26,9 +26,9 @@ export const monitorPV = (client: Client, opt: opt): Plugin => {
   // 为 pushState 以及 replaceState 方法添加 Event 事件
   const proxyHistory = (handler: Function): void => {
     // 添加对 replaceState 的监听
-    window.addEventListener('replaceState', (e) => handler(e), true);
+    // window.addEventListener('replaceState', (e) => handler(e), true);
     // 添加对 pushState 的监听
-    // window.addEventListener('pushState', (e) => handler(e), true);
+    window.addEventListener('pushState', (e) => handler(e), true);
   };
   const proxyHash = (handler: Function): void => {
     // 添加对 hashchange 的监听

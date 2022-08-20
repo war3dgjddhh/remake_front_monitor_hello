@@ -10,7 +10,7 @@ type rv = {
 export const promiseDateHandler = (client: Client): Plugin => {
   return {
     beforeBuildData: (_data) => {
-      if (_data?.plugin !== 'monitorJsErr') {
+      if (_data?.plugin !== 'monitorPromisErr') {
         return _data;
       }
       let data = _data as any as errRecord;

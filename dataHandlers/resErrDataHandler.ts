@@ -1,7 +1,7 @@
 import { Client, Plugin } from '../client';
 import { resErr } from '../monitors/monitorResErr';
 
-export const WebPrefDataHandler = (client: Client): Plugin => {
+export const resErrDataHandler = (client: Client): Plugin => {
   type rv = {
     errSrc: string;
     errHtml: string;

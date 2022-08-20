@@ -1,10 +1,11 @@
+import { opt } from '..';
 // TODO: FMP
 import { observe, PerformanceEntryHandler } from '../utils/observe.js';
 import { Client, Plugin } from '../client';
 import { afterLoad } from '../utils/afterLoad.js';
 type Ioption = {
-  monitorningCLS: boolean;
-};
+  monitorningCLS?: boolean;
+} & opt;
 export type MeNavigationTiming = {
   FP: number;
   TTI: number;
@@ -29,8 +30,9 @@ interface LayoutShift extends PerformanceEntry {
   value: number;
   hadRecentInput: boolean;
 }
-let webVitalData: webVitalData;
+let webVitalData = { CLS: -1, FID: -1 } as webVitalData;
 export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
+  const { url = client.opt.url } = opt;
   const monitorCLS = () => {
     let sessionValue = 0;
     let sessionEntries: PerformanceEntry[] = [];
@@ -96,6 +98,8 @@ export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
     webVitalData.DomParse = entry.domInteractive - entry.responseEnd;
     webVitalData.Res = entry.loadEventStart - entry.domContentLoadedEventEnd;
   });
+  // 等数据上报完成之后就销毁observer
+  const disConnectObserver = () => {};
   return {
     beforeInit: () => {
       monitorCLS();
@@ -103,17 +107,13 @@ export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
       monitorLCP();
       monitorFID();
       monitorNT();
-    },
-    beforeStart: () => {
       setTimeout(() => {
-        client.send('url', {
+        client.send(url, {
           ...webVitalData,
           plugin: 'monitorWebPref',
         });
-      }, 10000);
-    },
-    beforeDestory: () => {
-      // 释放obsever
+        disConnectObserver();
+      }, 5000);
     },
   };
 };

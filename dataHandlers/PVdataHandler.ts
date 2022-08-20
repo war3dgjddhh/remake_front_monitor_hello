@@ -1,7 +1,7 @@
 import { Client, Plugin } from '../client';
 import { PV } from '../monitors/monitorPV';
 
-export const WebPrefDataHandler = (client: Client): Plugin => {
+export const PVdataHandler = (client: Client): Plugin => {
   type rv = {
     routePath: string;
     duration: number;

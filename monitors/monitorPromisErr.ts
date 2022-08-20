@@ -17,7 +17,10 @@ export const monitorPromisErr = (client: Client): Plugin => {
       errUid: getErrorUid(`${mechanism}-${value}-${type}`),
     };
     // 一般错误异常立刻上报，不用缓存在本地
-    client.send(url, exception);
+    client.send(url, {
+      ...exception,
+      plugin: 'monitorPromisErr'
+    });
   };
 
   window.addEventListener(

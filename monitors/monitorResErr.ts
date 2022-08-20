@@ -1,4 +1,4 @@
-import { Plugin } from './../client';
+import { Plugin, category } from './../client';
 import { opt } from '..';
 import { getErrorUid } from '../utils/errUtils';
 import { Client } from '../client';
@@ -9,6 +9,7 @@ export type resErr = {
   html: any;
   type: string;
   plugin: string;
+  category: 'error';
 };
 export const monitorResErr = (client: Client, opt: opt): Plugin => {
   const handler = (event: Event) => {
@@ -22,6 +23,7 @@ export const monitorResErr = (client: Client, opt: opt): Plugin => {
       html: target.outerHTML,
       type: target.tagName,
       plugin: 'monitorResErr',
+      category: 'error',
     };
     // 一般错误异常立刻上报，不用缓存在本地
     client.send(url, exception);

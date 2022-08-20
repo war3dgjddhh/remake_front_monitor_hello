@@ -60,7 +60,7 @@ export const WebPrefDataHandler = (client: Client): Plugin => {
         prefTrans: Math.floor(Trans * 100) / 100,
         prefDomParse: Math.floor(DomParse * 100) / 100,
         prefRes: Math.floor(Res * 100) / 100,
-        prefCls: Math.floor(CLS * 100) / 100,
+        prefCls: Math.floor(CLS * 1000) / 1000,
         prefFcp: Math.floor(FCP * 100) / 100,
         prefFid: Math.floor(FID * 100) / 100,
         prefLcp: Math.floor(LCP * 100) / 100,
