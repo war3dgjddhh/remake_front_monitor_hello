@@ -1,118 +1,34 @@
-## 插件 monitorAPI
+## 如何使用
 
-返回格式
+npm install npm i remake_front_monitor_hello@0.0.1
 
-```ts
-type rv = {
-  apiMethod: string;
-  apiUrl: URL | string;
-  apiTime: Date;
-  apiStatus: number;
-};
-```
-
-这样后端查询 api 错误率就直接查完总数在除以 status<400 的就行 // api 错误率 解决
-
-## 插件 ErrDataHandler
-
-> 主要处理发送错误信息的连锁行为, e.g 发生错误时, 发送用户行为栈并清空
-> 用户用为类型
-
-1. 请求 api
-2. 点击(ignore)
-3. 路由跳转(SPA 尤其重视)
-
-## 插件 monitorHttpErr
-
-返回格式
+> 用户 id 由于失误这个实际上是 appId， 就是一个用户可以有多个 userId， 每个 userId 标识一个网站，然后每个用户只有一个 deviceId 用来验证，相当于是 token，secretKey
 
 ```ts
-type errRecord = {
-  category: category; // ignore
-  mechanism: string;
-  errMsg?: string;
-  errType: string;
-  errUid: string;
-  stackTrace?: object;
-  pageInfo?: PageInfo;
-  breadcrumbs?: Array<behaviorStack>;
-};
+import { client } from 'remake_front_monitor_hello';
+client.client.configuer({
+  sender: {
+    userId: 'aa7385b487e84f28a5e43e7574f4f0aa',
+    deviceId: 'e20ca6dd21964f99a7d514bc4c1264e1',
+    baseUrl: 'http://localhost:8088/', // 服务器地址
+  },
+  opt: {
+    apiUrl: 'api/store/api', // 这个是配置采集数据的地址
+    prefUrl: 'api/store/pref',
+    resUrl: 'api/store/res',
+    pvUrl: 'api/store/pv',
+    jsErrUrl: 'api/store/jsErr',
+    httpErrUrl: 'api/store/httpErr',
+    corsErrUrl: 'api/store/corsErr',
+    resErrUrl: 'api/store/resErr',
+    promiseErrUrl: 'api/store/promiseErr',
+  },
+});
+client.init();
+client.start();
 ```
 
-## 插件 monitorJsErr.ts
+## 错误采集插件 在错误发生时发送用户行为记录
 
-返回格式
-
-## 插件 monitorWebPref.ts
-
-采集数据
-
-```ts
-export type MeNavigationTiming = {
-  FP?: number; // 白屏时间
-  TTI?: number;
-  DomReady?: number;
-  Load?: number;
-  FirstByte?: number;
-  DNS?: number;
-  TCP?: number;
-  SSL?: number;
-  TTFB?: number;
-  Trans?: number; // content download
-  DomParse?: number;
-  Res?: number; // resourece download
-};
-export type webVitalData = {
-  CLS: number;
-  FCP: number;
-  FID: number; // first input delay
-  LCP: number;
-} & MeNavigationTiming;
-```
-
-## 插件 WebPrefDataHandler.ts
-
-返回数据
-上报策略(当 client.start 执行之后 10s
-就上报,不管 FID 是否获取到)
-
-```ts
-type rv = {
-  prefFp: number;
-  prefTti: number;
-  prefDomReady: number;
-  prefLoad: number;
-  prefFirstByte: number;
-  prefDns: number;
-  prefTcp: number;
-  prefSsl: number;
-  prefTtfb: number;
-  prefTrans: number;
-  prefDomParse: number;
-  prefRes: number;
-  prefCls: number;
-  prefFcp: number;
-  prefFid: number;
-  prefLcp: number;
-  reportTime: Date;
-};
-```
-
-## 插件 monitorPv.ts
-
-采集数据 每个页面的停留时间
-A -> B 页面 记录一次 A 1s
-B -> A 页面 记录一次 B 2s
-这样 pv 就是 2
-
-1. 查看 A, B 页面的停留时间
-   uv 就是把 userId 拿过来去重就得到 pv
-2. 分析页面的重要程度, 用户最喜欢
-   那个页面
-
-```ts
-export type PV = {
-  routePath: string;
-  duration: number;
-};
-```
+需要在发送的数据添加上 catogory: "error", 在 errDataHandler
+中可以做统一处理, 带上 errKey 可以不发送同一个错误等

@@ -1,0 +1,22 @@
+{
+  "name": "remake_front_monitor_hello",
+  "version": "0.0.1",
+  "description": "current is a demo",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/war3dgjddhh/remake_front_monitor_hello.git"
+  },
+  "keywords": [
+    "monitor"
+  ],
+  "author": "yly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/war3dgjddhh/remake_front_monitor_hello/issues"
+  },
+  "homepage": "https://github.com/war3dgjddhh/remake_front_monitor_hello#readme"
+}
