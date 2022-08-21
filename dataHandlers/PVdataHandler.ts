@@ -4,7 +4,7 @@ import { PV } from '../monitors/monitorPV';
 export const PVdataHandler = (client: Client): Plugin => {
   type rv = {
     routePath: string;
-    duration: number;
+    pageDuration: number;
     pvTime: Date;
   };
   return {
@@ -16,7 +16,7 @@ export const PVdataHandler = (client: Client): Plugin => {
       const { duration, startTime, routePath } = data;
       const rv: rv = {
         routePath,
-        duration,
+        pageDuration: duration,
         pvTime: new Date(startTime),
       };
       return rv;

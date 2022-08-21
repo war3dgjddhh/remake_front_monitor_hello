@@ -16,7 +16,7 @@ export type errRecord = {
   origin?: object;
 };
 export const monitorJsErr = (client: Client, opt: opt): Plugin => {
-  const { url = client.opt.url } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
+  const { url = client.opt.jsErrUrl } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
   const JsErrHandler = (event: ErrorEvent) => {
     // 阻止向上抛出控制台报错
     event.preventDefault();

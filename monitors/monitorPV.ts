@@ -8,7 +8,7 @@ export type PV = {
 };
 const history = window.history;
 export const monitorPV = (client: Client, opt: opt): Plugin => {
-  const { url = client.opt.url } = opt;
+  const { url = client.opt.pvUrl } = opt;
   const wr = (type: keyof History) => {
     const orig: Function = history[type];
     return function (this: unknown) {

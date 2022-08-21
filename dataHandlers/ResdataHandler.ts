@@ -27,7 +27,9 @@ export const ResdataHandler = (client: Client): Plugin => {
           resTime: new Date(startTime),
         });
       });
-      return rv;
+      return {
+        data: rv,
+      };
     },
   };
 };

@@ -13,7 +13,7 @@ export type resErr = {
 };
 export const monitorResErr = (client: Client, opt: opt): Plugin => {
   const handler = (event: Event) => {
-    const { url = client.opt.url } = opt;
+    const { url = client.opt.resErrUrl } = opt;
     event.preventDefault(); // 阻止向上抛出控制台报错
     if (getErrorKey(event) !== 'resErr') return;
     const target = event.target as any;

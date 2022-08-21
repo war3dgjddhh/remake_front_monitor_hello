@@ -87,7 +87,7 @@ export const proxyFetch = (
   }
 };
 export const monitorAPI = (client: Client, option: opt): Plugin => {
-  const { url = client.opt.url } = option;
+  const { url = client.opt.apiUrl } = option;
   // sendhander ；用于在请求前加上信息
   const loadHandler = (metrics: httpRecord) => {
     delete metrics.response;

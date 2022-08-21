@@ -9,7 +9,17 @@ export type Plugin = {
 };
 export type category = 'error' | 'xxx';
 export class Client {
-  opt = { url: '' };
+  opt = {
+    apiUrl: 'api/store/api',
+    prefUrl: 'api/store/pref',
+    resUrl: 'api/store/res',
+    pvUrl: 'api/store/pv',
+    jsErrUrl: 'api/store/jsErr',
+    httpErrUrl: 'api/store/httpErr',
+    corsErrUrl: 'api/store/corsErr',
+    resErrUrl: 'api/store/resErr',
+    promiseErrUrl: 'api/store/promiseErr',
+  }; // 默认值
   plugins?: Plugin[] = [];
   sender: { send?: Function } = {};
   breadcrumbs = new behaviorStore({ maxBehaviorRecords: 100 });

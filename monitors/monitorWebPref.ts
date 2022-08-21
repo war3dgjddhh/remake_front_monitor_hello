@@ -32,7 +32,7 @@ interface LayoutShift extends PerformanceEntry {
 }
 let webVitalData = { CLS: -1, FID: -1 } as webVitalData;
 export const monitorWebPref = (client: Client, opt: Ioption): Plugin => {
-  const { url = client.opt.url } = opt;
+  const { url = client.opt.prefUrl } = opt;
   const monitorCLS = () => {
     let sessionValue = 0;
     let sessionEntries: PerformanceEntry[] = [];

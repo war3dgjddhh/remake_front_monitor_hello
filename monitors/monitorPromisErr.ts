@@ -3,7 +3,7 @@ import type { Plugin } from './../client';
 import { getErrorKey, getErrorUid } from '../utils/errUtils';
 import { errRecord } from './monitorJsErr';
 export const monitorPromisErr = (client: Client): Plugin => {
-  const { url = client.opt.url } = {}; // 从配置Map中读取client.opt.geturl("pluginName")
+  const { url = client.opt.promiseErrUrl } = {}; // 从配置Map中读取client.opt.geturl("pluginName")
   const promiseErrHandler = (event: PromiseRejectionEvent) => {
     event.preventDefault(); // 阻止向上抛出控制台报错
     const value = event.reason.message || event.reason;

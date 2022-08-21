@@ -6,7 +6,7 @@ import { getErrorKey, getErrorUid } from '../utils/errUtils';
 import { errRecord } from './monitorJsErr';
 import { proxyFetch, proxyXmlHttp } from './monitorAPI';
 export const monitorHttpErr = (client: Client, opt: opt): Plugin => {
-  const { url = client.opt.url } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
+  const { url = client.opt.httpErrUrl } = opt; // 从配置Map中读取client.opt.geturl("pluginName")
 
   const loadHandler = (metrics: httpRecord) => {
     // 如果 status 状态码小于 400,说明没有 HTTP 请求错误

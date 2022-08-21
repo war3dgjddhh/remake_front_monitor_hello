@@ -19,7 +19,7 @@ export type ResourceFlowTiming = {
 };
 
 export const monitorRes = (client: Client, opt: opt): Plugin => {
-  const { url = client.opt.url } = opt;
+  const { url = client.opt.resUrl } = opt;
   const resourceStream: Array<ResourceFlowTiming> = [];
   const monitorRF = () => {
     const entryHandler = (entry: PerformanceResourceTiming) => {
