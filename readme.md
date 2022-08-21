@@ -1,6 +1,6 @@
 ## 如何使用
 
-npm install npm i remake_front_monitor_hello@0.0.1
+npm install npm i remake_front_monitor_hello@0.0.11
 
 > 用户 id 由于失误这个实际上是 appId， 就是一个用户可以有多个 userId， 每个 userId 标识一个网站，然后每个用户只有一个 deviceId 用来验证，相当于是 token，secretKey
 
